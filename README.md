@@ -5,23 +5,28 @@ You can install OpenShift Container Platform on vSphere by using installer-provi
 
 ## Preperations
 
-* Setup a Bastion Host using e.g RHEL9.
-* Prepare `ssh`:
+Setup a Bastion Host using e.g RHEL9.
+
+### SSH
+
 `cat ~/.ssh/id_ed25519.pub | ssh rguske@rguske-bastion.rguske.coe.muc.redhat.com "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys && chmod 700 ~/.ssh"`
-* Register the `subscription-manager`: `sudo subscription-manager register --username  --password `
-* Generating an SSH key pair. You can use this key pair to authenticate into the OpenShift Container Platform cluster’s nodes after it is deployed.
+
+* Generating an SSH key pair on your Bastion-Host. You can use this key pair to authenticate into the OpenShift Container Platform cluster’s nodes after it is deployed.
+
 `ssh-keygen -t ed25519 -N '' -f ~/.ssh/id_ed25519`
+
+### RHEL Subscription Manager
+
+* Register the `subscription-manager`: `sudo subscription-manager register --username  --password `
+
+### vCenter Root Certificates
+
 * [Adding your vCenter’s trusted root CA certificates](https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/installing_on_vmware_vsphere/installer-provisioned-infrastructure#installation-adding-vcenter-root-certificates_ipi-vsphere-preparing-to-install) to your system trust.
-
-Downloading and adding the certificates: `curl -kLO https://vcsa-vsphere1.coe.muc.redhat.com/certs/download.zip`
-
-Install `unzip` to unpack the zip file: `sudo dnf install unzip -y`.
-
-Unpack the zip file: `unzip download.zip`.
-
-Move the certificates to the system trust: `cp certs/lin/* /etc/pki/ca-trust/source/anchors`
-
-Update your system trust: `update-ca-trust extract`
+* Downloading and adding the certificates: `curl -kLO https://vcsa-vsphere1.coe.muc.redhat.com/certs/download.zip`
+* Install `unzip` to unpack the zip file: `sudo dnf install unzip -y`.
+* Unpack the zip file: `unzip download.zip`.
+* Move the certificates to the system trust: `cp certs/lin/* /etc/pki/ca-trust/source/anchors`
+* Update your system trust: `update-ca-trust extract`
 
 ### Installing necessary CLIs
 
@@ -29,8 +34,8 @@ On the bastion host, download the necessary cli's:
 
 `curl -LO <url>`
 
-- [openshift-install-rhel9](https://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.17.6/openshift-install-rhel9-amd64.tar.gz)
-- [openshift-client-linux-amd64](https://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.17.6/openshift-client-linux-amd64-rhel9-4.17.6.tar.gz)
+* [openshift-install-rhel9](https://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.17.6/openshift-install-rhel9-amd64.tar.gz)
+* [openshift-client-linux-amd64](https://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.17.6/openshift-client-linux-amd64-rhel9-4.17.6.tar.gz)
 
 Unpack the `.gz`files and copy them into your path:
 
@@ -45,9 +50,7 @@ cp kubectl /usr/local/bin/
 
 ### Create local config - IPI
 
-Create the installation configuration by executing: `openshift-install create install-config --dir .`
-
-This will start an interactive wizzard which looks like the following:
+Create the installation configuration for OCP interactively by executing: `openshift-install create install-config --dir .`
 
 ```shell
 openshift-install create install-config --dir .
@@ -69,7 +72,7 @@ INFO Defaulting to only available network: VM Network
 INFO Install-Config created in: .
 ```
 
-Output:
+Output `install-config.yaml`:
 
 ```yaml
 additionalTrustBundlePolicy: Proxyonly
