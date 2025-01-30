@@ -268,7 +268,7 @@ DEBUG OpenShift console route is admitted
 INFO Install complete!
 INFO To access the cluster as the system:admin user when using 'oc', run 'export KUBECONFIG=/home/rguske/ocp/ipi/auth/kubeconfig'
 INFO Access the OpenShift web-console here: https://console-openshift-console.apps.ocp1.rguske.coe.muc.redhat.com
-INFO Login to the console with user: "kubeadmin", and password: "74BY4-w7xgK-3pCLA-qteCw"
+INFO Login to the console with user: "kubeadmin", and password: "74BY4..."
 DEBUG Time elapsed per stage:
 DEBUG     Infrastructure Pre-provisioning: 1m11s
 DEBUG Network-infrastructure Provisioning: 44s
